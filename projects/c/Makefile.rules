@@ -1,0 +1,166 @@
+CC=$(CROSS)gcc
+AR=$(CROSS)ar
+RANLIB=$(CROSS)ranlib
+LD=$(CROSS)g++
+STRIP=$(CROSS)strip
+CXXFLAGS ?=$(CFLAGS)
+CFLAGS +=-Werror
+CFLAGS +=-Wall
+
+OBJECTEXT ?=.o
+#TARGET_DIR = $(EBOX_OUT_DIR)
+SHARED_DIR = $(SRC_DIR)/common
+COMMON_DIR = $(SRC_DIR)/../../src/common
+LIB_DIR = $(SRC_DIR)/fkg485_dll
+
+CFLAGS += -I$(COMMON_DIR) -I$(SHARED_DIR) -D__MISSING_STRL -D__MISSING_STRTOK_R
+
+#INSTDIR   = $(TARGET_DIR)/ebox/bin/
+INSTMODE  = 0755
+INSTOWNER = root
+INSTGROUP = root
+
+
+%$(OBJECTEXT): %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
+$(OBJECT_DIR)/%$(OBJECTEXT): $(SOURCE_DIR)/%.c
+	mkdir -p $(OBJECT_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJECT_DIR)/%$(OBJECTEXT): $(SHARED_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJECT_DIR)/%$(OBJECTEXT): $(LIB_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
+  
+$(OBJECT_DIR)/%$(OBJECTEXT): $(COMMON_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+
+
+###########################################################################
+# The following is a set of standard rules to try to make sure we build
+# and install the correct files.
+
+all:	 	all-recurse
+all-recurse:	pre-all-recurse
+pre-all-recurse:
+
+depend:			depend-recurse
+depend-recurse:		pre-depend-recurse
+pre-depend-recurse:
+
+install:		install-recurse
+install-recurse:	pre-install-recurse 
+pre-install-recurse:
+
+uninstall:		uninstall-recurse
+uninstall-recurse:	pre-uninstall-recurse
+pre-uninstall-recurse:
+
+clean:		clean-recurse
+clean-recurse:	pre-clean-recurse
+
+ifndef ROOT_MAKEFRAG
+ROOT_MAKEFRAG := $(shell echo `pwd`/$(makefrag_name))
+
+# OBSOLETE: This rule allows old .target_* files to be converted to
+# .target-makefrag by running make configsubs in the root directory
+$(call slashify,$(ROOT_MAKEFRAG)):
+ifdef AXIS_BUILDTYPE
+	$(MAKE) $(AXIS_BUILDTYPE)
+else
+	@echo "You must specify the target type!"
+	exit 1
+endif
+endif # !ROOT_MAKEFRAG
+
+## 
+## The following special targets exists:
+
+## axishelp                   - This help
+axishelp:
+	@grep '^## ' $(APPS)/Rules.elinux
+
+## 
+## The following build types exist:
+## cris-axis-linux-gnu        - CRIS/Linux 2.4 with shared glibc
+## cris-axis-linux-gnuuclibc  - CRIS/Linux 2.4 with shared uClibc
+## clinux                     - CRIS/Linux 2.4 with static uClibc
+## elinux                     - CRIS/Linux 2.0 NO_MMU with uC-libc
+## host                       - Host build with debug
+cris-axis-linux-gnu cris-axis-linux-gnuuclibc clinux elinux host:
+	$(VERBOSE_FRAG)echo AXIS_BUILDTYPE=$@ > .tmp$(makefrag_name)
+ifeq ($(AXIS_DEBUG),debug)
+	$(VERBOSE_FRAG)echo AXIS_DEBUG=$(AXIS_DEBUG) >> .tmp$(makefrag_name)
+endif
+	@$(MAKE) configsubs AXIS_BUILDTYPE=$@ ROOT_MAKEFRAG="$(shell echo `pwd`/.tmp$(makefrag_name))" || ( rm -f .tmp$(makefrag_name); exit 1 )
+	@rm -f .tmp$(makefrag_name)
+
+## 
+## The following build options exist:
+## debug                      - Enable debug
+## nodebug                    - Do not enable debug
+## static                     - Enable static linking
+## nostatic                   - Do not enable static linking
+debug nodebug static nostatic:
+	@option=`echo $@ | sed 's/^no//'`;\
+	target=`echo AXIS_$$option | tr a-z A-Z`;\
+	grep -v "$$target" $(makefrag_name) > .tmp$(makefrag_name) 2> /dev/null; \
+	if test "$$option" = "$@"; then \
+	  echo $$target=$@ >> .tmp$(makefrag_name); \
+	  neg_check='!'; \
+	fi; \
+	$(MAKE) configsubs AXIS_CHECK_STRING="$$target=$$option" AXIS_NEG_CHECK=$$neg_check ROOT_MAKEFRAG="$(shell echo `pwd`/.tmp$(makefrag_name))" || ( rm -f .tmp$(makefrag_name); exit 1 )
+	@rm -f .tmp$(makefrag_name)
+
+ifndef AXIS_CHECK_STRING
+AXIS_CHECK_STRING = "AXIS_BUILDTYPE=$(AXIS_BUILDTYPE)"
+AXIS_NEG_CHECK = !
+endif
+
+checkclean:
+	@if ! test -f .target_$(AXIS_BUILDTYPE) \
+	    && ( ! test -f $(makefrag_name) \
+	         || $(AXIS_NEG_CHECK) grep $(AXIS_CHECK_STRING) $(makefrag_name) > /dev/null ); then \
+	  NO_SUBDIR_RECURSION=1 $(MAKE) --no-print-directory clean ROOT_MAKEFRAG="$(ROOT_MAKEFRAG)"; \
+	fi
+
+configsubs: 		configsubs-recurse
+configsubs-recurse:	pre-configsubs-recurse
+pre-configsubs-recurse:	$(call slashify,$(ROOT_MAKEFRAG))
+
+configsubs: checkclean
+	-@if ! cmp -s "$(ROOT_MAKEFRAG)" $(makefrag_name); then \
+	  rm -f .target*; \
+	  echo "cp \"$(ROOT_MAKEFRAG)\" $(makefrag_name)"; \
+	  cp "$(ROOT_MAKEFRAG)" $(makefrag_name); \
+	fi
+
+# These are hooks that can be used to have rules executed before the
+# recursive rules are checked.
+pre-all-recurse pre-depend-recurse pre-install-recurse pre-uninstall-recurse pre-clean-recurse pre-configsubs-recurse:
+
+# Recursive rules to make all, depend, install, uninstall, clean and configsubs
+all-recurse depend-recurse install-recurse uninstall-recurse clean-recurse configsubs-recurse:
+ifneq ($(NO_SUBDIR_RECURSION),1)
+	@subdirs="$(SUBDIRS)"; \
+	for subdir in $$subdirs; do \
+	  if test -d "$$subdir"; then \
+		if test -f "$$subdir/.skip-$(EBOX_TARGET)"; then \
+			echo "Skipping $$subdir"; \
+		else \
+			target=`echo $@ | sed 's/-recurse//'`; \
+			echo "Making $$target in $$subdir for $(CROSS)"; \
+			$(MAKE) -C "$$subdir" $$target ROOT_MAKEFRAG="$(ROOT_MAKEFRAG)" || exit 1; \
+		fi; \
+	else \
+	    echo "The directory '$$subdir' does not exist or is not a directory!"; \
+	    exit 1; \
+	  fi; \
+	done
+endif

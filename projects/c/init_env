@@ -1,0 +1,10 @@
+source ......../
+
+export TOP_DIR=......../springcard.iwm2.sdk/projects/Iwm2_C_Clients
+export SRC_DIR=......../springcard.iwm2.sdk/projects/Iwm2_C_Clients
+export OUT_DIR=......../springcard.iwm2.sdk/_output
+
+export CROSS=........
+export OBJECTEXT=........
+export CFLAGS=........
+

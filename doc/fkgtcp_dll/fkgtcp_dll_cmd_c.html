@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<link rel="stylesheet" href="./robodoc.css" type="text/css">
+<TITLE>./doc/fkgtcp_dll_cmd_c.html</TITLE>
+<!-- Source: ./tmp/fkgtcp_dll_cmd.c -->
+<!-- Generated with ROBODoc Version 4.0.6 (Mar  8 2004) -->
+<!-- ROBODoc (c) 1994-2003 by Frans Slothouber and Jacco van Weert. -->
+</head>
+<body bgcolor="#FFFFFF">
+<hr />
+
+<h2><a name="robo6"><a href="#robo_TOC">FkgTCP.dll/cmd.c</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   FkgTCP.dll -- Commands
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>   Commands to send to the reader or I/O device
+</pre>
+<hr><br><br><center><a name="robo_TOC"><br><h3>Table Of Content</h3></center><br>
+<h2>Functions</h2>
+<table cellspacing="3">
+<TR  class="even">
+<td  class="uneven"><a href="./fkgtcp_dll_cmd_c.html#robo12"><tt>
+FKGTCP_Mio_ClearOutput</tt></a></td>
+<td  class="even"><a href="./fkgtcp_dll_cmd_c.html#robo10"><tt>
+FKGTCP_Mio_SetOutput</tt></a></td>
+<td  class="uneven"><a href="./fkgtcp_dll_cmd_c.html#robo11"><tt>
+FKGTCP_Mio_SetOutputT</tt></a></td>
+</tr>
+<TR  class="uneven">
+<td  class="even"><a href="./fkgtcp_dll_cmd_c.html#robo9"><tt>
+FKGTCP_Rdr_Buzzer</tt></a></td>
+<td  class="uneven"><a href="./fkgtcp_dll_cmd_c.html#robo8"><tt>
+FKGTCP_Rdr_ClearLeds</tt></a></td>
+<td  class="even"><a href="./fkgtcp_dll_cmd_c.html#robo7"><tt>
+FKGTCP_Rdr_SetLeds</tt></a></td>
+</tr>
+<tr  class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<h2>Generic</h2>
+<table cellspacing="3">
+<TR  class="even">
+<td  class="uneven"><a href="./fkgtcp_dll_cmd_c.html#robo6"><tt>
+cmd.c</tt></a></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<br><br><br><br>
+<hr />
+
+<h2><a name="robo7"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Rdr_SetLeds</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Rdr_SetLeds</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Drive the FunkyGate's LEDs
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Rdr_SetLeds</strong>(const char *device_name, BYTE red, BYTE green);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+   BYTE red : status of the Red LED
+   BYTE green : status of the Green LED
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre>
+<hr />
+
+<h2><a name="robo8"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Rdr_ClearLeds</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Rdr_ClearLeds</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Put the FunkyGate's LEDs back in default mode
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Rdr_ClearLeds</strong>(const char *device_name);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre>
+<hr />
+
+<h2><a name="robo9"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Rdr_Buzzer</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Rdr_Buzzer</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Drive the FunkyGate's buzzer
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Rdr_Buzzer</strong>(const char *device_name, BYTE sequence);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+   BYTE sequence : the state of the buzzer
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre>
+<hr />
+
+<h2><a name="robo10"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Mio_SetOutput</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Mio_SetOutput</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Set one of the HandyDrummer's output
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Mio_SetOutput</strong>(const char *device_name, BYTE which);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+   BYTE which : the index of the Output to be set
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>   <a href="#robo12">FKGTCP_Mio_ClearOutput</a>
+</pre>
+<hr />
+
+<h2><a name="robo11"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Mio_SetOutputT</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Mio_SetOutputT</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Set one of the HandyDrummer's output, for a specified time period
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Mio_SetOutputT</strong>(const char *device_name, BYTE which, WORD timeout_s);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+   BYTE which : the index of the Output to be set
+       WORD timeout_s : time in seconds
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre>
+<hr />
+
+<h2><a name="robo12"><a href="#robo_TOC">FkgTCP.dll/FKGTCP_Mio_ClearOutput</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKGTCP_Mio_ClearOutput</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Clear (reset) one of the HandyDrummer's output
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   BOOL <strong>FKGTCP_Mio_ClearOutput</strong>(const char *device_name, BYTE which);
+</pre><p><strong>INPUTS</strong></p>
+<pre>   const char *device_name : the device's "friendly-name"
+   BYTE which : the index of the Output to be reset
+</pre><p><strong>RETURNS</strong></p>
+<pre>   TRUE  : success, command sent
+   FALSE : error
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>   <a href="#robo10">FKGTCP_Mio_SetOutput</a>
+</pre>
+<hr />
+<a name="./tmp/fkgtcp_dll_cmd.c">Generated from ./tmp/fkgtcp_dll_cmd.c</a> on Thu Nov 19 09:51:20 2015
+<br />
+</body>
+</html>

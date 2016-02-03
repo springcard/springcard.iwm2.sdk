@@ -1,0 +1,1 @@
+This projects target Microsoft Visual C++ Express 2010

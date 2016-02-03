@@ -1,0 +1,20 @@
+PROGS     = crypto_test
+
+CFLAGS   += -D_DEBUG -Werror -I/home/projects/common
+
+SRCS := \
+	$(wildcard ../block/*.c) \
+	$(wildcard ../rsa/*.c) \
+	$(wildcard ../hash/*.c) \
+	$(wildcard ../vigik/*.c) \
+	$(wildcard ../utils/*.c) \
+	main.c
+	
+OBJS := $(patsubst %.c,%.o,$(SRCS))
+
+$(PROGS): $(OBJS)
+	$(CC) $^ -o $@
+	rm $(OBJS)
+
+all:	$(PROGS)
+

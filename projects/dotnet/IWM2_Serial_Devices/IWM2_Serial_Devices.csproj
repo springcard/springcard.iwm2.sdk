@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{065F7D5E-8BFA-47F7-8AA6-6C91C1E38A95}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>IWM2_Serial_Devices</RootNamespace>
+    <AssemblyName>IWM2_Serial_Devices</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>..\..\..\_obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\..\..\_output\dotnet\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>..\..\..\_obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\..\..\_output\dotnet\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>..\..\..\_obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\common\AboutForm.cs">
+      <Link>AboutForm.cs</Link>
+    </Compile>
+    <Compile Include="..\common\AboutForm.Designer.cs">
+      <Link>AboutForm.Designer.cs</Link>
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\common\Controllers\SpringCardIWM2_Reader_Controller.cs">
+      <Link>SpringCardIWM2_Reader_Controller.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Controllers\SpringCardIWM2_Reader_Controller.Designer.cs">
+      <Link>SpringCardIWM2_Reader_Controller.Designer.cs</Link>
+      <DependentUpon>SpringCardIWM2_Reader_Controller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\common\Controllers\SpringCardIWM2_Serial_Scheduler_Controller.cs">
+      <Link>SpringCardIWM2_Serial_Scheduler_Controller.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Controllers\SpringCardIWM2_Serial_Scheduler_Controller.Designer.cs">
+      <Link>SpringCardIWM2_Serial_Scheduler_Controller.Designer.cs</Link>
+      <DependentUpon>SpringCardIWM2_Serial_Scheduler_Controller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\common\Interfaces\ISpringCardIWM2_Device.cs">
+      <Link>ISpringCardIWM2_Device.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Interfaces\ISpringCardIWM2_Reader.cs">
+      <Link>ISpringCardIWM2_Reader.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Serial_Devices\SpringCardIWM2_Serial_Reader.cs">
+      <Link>SpringCardIWM2_Serial_Reader.cs</Link>
+    </Compile>
+    <Compile Include="..\common\Serial_Devices\SpringCardIWM2_Serial_Scheduler.cs">
+      <Link>SpringCardIWM2_Serial_Scheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\common\SpringCardIWM2_Device.cs">
+      <Link>SpringCardIWM2_Device.cs</Link>
+    </Compile>
+    <Compile Include="..\common\SystemConsole.cs">
+      <Link>SystemConsole.cs</Link>
+    </Compile>
+    <Compile Include="MainForm.cs" />
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\common\AboutForm.resx">
+      <Link>AboutForm.resx</Link>
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\common\Controllers\SpringCardIWM2_Reader_Controller.resx">
+      <Link>SpringCardIWM2_Reader_Controller.resx</Link>
+      <DependentUpon>SpringCardIWM2_Reader_Controller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\common\Controllers\SpringCardIWM2_Serial_Scheduler_Controller.resx">
+      <Link>SpringCardIWM2_Serial_Scheduler_Controller.resx</Link>
+      <DependentUpon>SpringCardIWM2_Serial_Scheduler_Controller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

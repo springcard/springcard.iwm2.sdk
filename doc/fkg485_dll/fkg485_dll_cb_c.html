@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<link rel="stylesheet" href="./robodoc.css" type="text/css">
+<TITLE>./doc/fkg485_dll_cb_c.html</TITLE>
+<!-- Source: ./tmp/fkg485_dll_cb.c -->
+<!-- Generated with ROBODoc Version 4.0.6 (Mar  8 2004) -->
+<!-- ROBODoc (c) 1994-2003 by Frans Slothouber and Jacco van Weert. -->
+</head>
+<body bgcolor="#FFFFFF">
+<hr />
+
+<h2><a name="robo18"><a href="#robo_TOC">Fkg485.dll/callbacks.c</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   Fkg485.dll -- Callbacks
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>   Manage the DLL's callbacks
+</pre>
+<hr><br><br><center><a name="robo_TOC"><br><h3>Table Of Content</h3></center><br>
+<h2>Functions</h2>
+<table cellspacing="3">
+<TR  class="even">
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo28"><tt>
+FKG485_Mio_SetInputChangeCallback</tt></a></td>
+<td  class="even"><a href="./fkg485_dll_cb_c.html#robo25"><tt>
+FKG485_Rdr_SetCardInsertCallback</tt></a></td>
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo19"><tt>
+FKG485_Rdr_SetCardInsertCallback</tt></a></td>
+</tr>
+<TR  class="uneven">
+<td  class="even"><a href="./fkg485_dll_cb_c.html#robo24"><tt>
+FKG485_Rdr_SetCardReadCallback</tt></a></td>
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo26"><tt>
+FKG485_Rdr_SetCardRemoveCallback</tt></a></td>
+<td  class="even"><a href="./fkg485_dll_cb_c.html#robo27"><tt>
+FKG485_Rdr_SetPinEnterCallback</tt></a></td>
+</tr>
+<TR  class="even">
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo20"><tt>
+FKG485_SetEnumLoopEndedCallback</tt></a></td>
+<td  class="even"><a href="./fkg485_dll_cb_c.html#robo21"><tt>
+FKG485_SetILoopEndedCallback</tt></a></td>
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo23"><tt>
+FKG485_SetStatusChangeCallback</tt></a></td>
+</tr>
+<TR  class="uneven">
+<td  class="even"><a href="./fkg485_dll_cb_c.html#robo22"><tt>
+FKG485_SetStatusChangeCallback</tt></a></td>
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo29"><tt>
+FKG485_SetTlvReceiveCallback</tt></a></td>
+<td></td>
+</tr>
+</table>
+<h2>Generic</h2>
+<table cellspacing="3">
+<TR  class="even">
+<td  class="uneven"><a href="./fkg485_dll_cb_c.html#robo18"><tt>
+callbacks.c</tt></a></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<br><br><br><br>
+<hr />
+
+<h2><a name="robo19"><a href="#robo_TOC">Fkg485.dll/FKG485_Rdr_SetCardInsertCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   FKG485_SetEnumerateCallback
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when a reader device (FunkyGate) has responded to 
+  a S-ENUM request
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   FKG485_SetEnumerateCallback(BOOL (*cb) (const char *comm_name, BYTE device_idx));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 2 parameters:
+   - const char *comm_name : the communication port
+   - BYTE device_idx : the adress of the responding reader.
+   The callback SHALL return TRUE.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo20"><a href="#robo_TOC">Fkg485.dll/FKG485_SetEnumLoopEndedCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_SetEnumLoopEndedCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declares a callback function that will be called whenever the first S-ENUM
+  loop (to detect readers on the bus) has ended
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   FKG485_LIB void FKG485_API <strong>FKG485_SetEnumLoopEndedCallback</strong>(BOOL (*cb) (const char *comm_name))
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 1 parameter:
+   - const char *device_name : the device's "friendly-name"
+   The callback SHALL return TRUE. Returning FALSE will shutdown the communication channel and
+   terminate the thread.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo21"><a href="#robo_TOC">Fkg485.dll/FKG485_SetILoopEndedCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_SetILoopEndedCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declares a callback function that will be called each time an I-BLOCK
+  loop (to communicate with readers on the bus) has ended. This is especially
+  useful when several commands need to be sent to the same reader (registry
+  configuration for example), in order to know when the actual commands 
+  have all been sent. When communicating with several readers, this callback
+  may be of limited use.
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   FKG485_LIB void FKG485_API <strong>FKG485_SetILoopEndedCallback</strong>(BOOL (*cb) (const char *comm_name))
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 1 parameter:
+   - const char *device_name : the device's "friendly-name"
+   The callback SHALL return TRUE. Returning FALSE will shutdown the communication channel and
+   terminate the thread.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo22"><a href="#robo_TOC">Fkg485.dll/FKG485_SetStatusChangeCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_SetStatusChangeCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function that will be called whenever the communication channel
+  with a device (FunkyGate reader or HandyDrummer I/O module) is opened or closed.
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_SetStatusChangeCallback</strong>(BOOL (*cb) (const char *device_name, WORD device_status));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 2 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - WORD device_status : the device's status; could be FKG_STATUS_CREATED, FKG_STATUS_STARTING,
+                          FKG_STATUS_STARTED, FKG_STATUS_DISCONNECTED, FKG_STATUS_CONNECTION_FAILED,
+                          FKG_STATUS_CONNECTED, FKG_STATUS_TERMINATED, FKG_STATUS_DISPOSED
+   The callback SHALL return TRUE. Returning FALSE will shutdown the communication channel and
+   terminate the thread.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo23"><a href="#robo_TOC">Fkg485.dll/FKG485_SetStatusChangeCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   FKG485_SetTamperChangeCallback
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when the device's tampers are broken (or restored)
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   FKG485_SetTamperChangeCallback(BOOL (*cb) (const char *device_name, BYTE tampers_state));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 2 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE tampers_state : the status of the device's tampers
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo24"><a href="#robo_TOC">Fkg485.dll/FKG485_Rdr_SetCardReadCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_Rdr_SetCardReadCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when a reader device (FunkyGate) has read a card
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_Rdr_SetCardReadCallback</strong>(BOOL (*cb) (const char *device_name, BYTE head_idx, const BYTE card_id[], BYTE card_id_sz));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 4 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE head_idx : the internal index of the reader. Always 0 for current version
+   - const BYTE card_id[] : the card's ID
+   - BYTE card_id_sz : the size of the ID
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+   If the reader is configured for insert/remove mode, this callback will never be invoked.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>   <a href="#robo25">FKG485_Rdr_SetCardInsertCallback</a>
+   <a href="#robo26">FKG485_Rdr_SetCardRemoveCallback</a>
+</pre>
+<hr />
+
+<h2><a name="robo25"><a href="#robo_TOC">Fkg485.dll/FKG485_Rdr_SetCardInsertCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <a href="#robo24">FKG485_Rdr_SetCardReadCallback</a>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when a reader device (FunkyGate) has read a card
+  and the reader is configured to monitor insert/remove moves.
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_Rdr_SetCardInsertCallback</strong>(BOOL (*cb) (const char *device_name, BYTE head_idx, const BYTE card_id[], BYTE card_id_sz));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 4 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE head_idx : the internal index of the reader. Always 0 for current version
+   - const BYTE card_id[] : the card's ID
+   - BYTE card_id_sz : the size of the ID
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+   If the reader is not configured for insert/remove mode, this callback will never be invoked.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>   <a href="#robo26">FKG485_Rdr_SetCardRemoveCallback</a>
+   <a href="#robo24">FKG485_Rdr_SetCardReadCallback</a>
+</pre>
+<hr />
+
+<h2><a name="robo26"><a href="#robo_TOC">Fkg485.dll/FKG485_Rdr_SetCardRemoveCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_Rdr_SetCardRemoveCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when a reader device (FunkyGate) detects the
+  card removal (only available when the reader is configured to monitor insert/remove moves).
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_Rdr_SetCardRemoveCallback</strong>(BOOL (*cb) (const char *device_name, BYTE head_idx));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 4 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE head_idx : the internal index of the reader. Always 0 for current version
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+   If the reader is not configured for insert/remove mode, this callback will never be invoked.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>   <a href="#robo25">FKG485_Rdr_SetCardInsertCallback</a>
+</pre>
+<hr />
+
+<h2><a name="robo27"><a href="#robo_TOC">Fkg485.dll/FKG485_Rdr_SetPinEnterCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_Rdr_SetPinEnterCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when a PIN is entered on a reader with a PIN-pad (FunkyCode).
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_Rdr_SetPinEnterCallback</strong>(BOOL (*cb) (const char *device_name, BYTE head_idx, const BYTE pin[], BYTE pin_sz));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 4 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE head_idx : the internal index of the reader. Always 0 for current version
+   - const BYTE pin_id[] : the entered PIN
+   - BYTE pin_id_sz : the size of the PIN
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+   If the reader has no PIN-pad, this callback will never be invoked.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo28"><a href="#robo_TOC">Fkg485.dll/FKG485_Mio_SetInputChangeCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_Mio_SetInputChangeCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function to be called when any input of an I/O module (HandyDrummer) changes.
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   <strong>FKG485_Mio_SetInputChangeCallback</strong>(BOOL (*cb) (const char *device_name, BYTE input_idx, BYTE input_state));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 3 parameters:
+   - const char *device_name : the device's "friendly-name"
+   - BYTE input_idx : the internal index of the Input that has changed
+   - BYTE input_state : the new state of the Input
+   The callback SHALL return TRUE. If it returns FALSE, the default TLV callback (registered
+   using <a href="#robo29">FKG485_SetTlvReceiveCallback</a>) will be called afterwards.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+
+<h2><a name="robo29"><a href="#robo_TOC">Fkg485.dll/FKG485_SetTlvReceiveCallback</a></a></h2>
+
+<p><strong>NAME</strong></p>
+<pre>   <strong>FKG485_SetTlvReceiveCallback</strong>
+</pre><p><strong>DESCRIPTION</strong></p>
+<pre>  Declare a callback function that will be called whenever the computer receive a packet from the device
+  (FunkyGate reader or HandyDrummer I/O module) and this packet has not been handled by another internal routine
+  or callback.
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>   void <strong>FKG485_SetTlvReceiveCallback</strong>(BOOL (*cb) (const char *device_name, BYTE tag, BYTE tag_idx, const BYTE payload[], BYTE payload_sz));
+</pre><p><strong>NOTES</strong></p>
+<pre>   The callback receives 4 parameters:
+   const char *device_name : the device's "friendly-name"
+   BYTE tag : the high-order byte of the Tag (T in T,L,V)
+   BYTE tag_idx : the low-order byte of the Tag (T in T,L,V)
+   const BYTE payload[] : the Value (V in T,L,V)
+   BYTE payload_sz : the Length of the Value (L in T,L,V)
+   The callback SHALL return TRUE. Returning FALSE will shutdown the communication channel and
+   terminate the thread.
+ WARNING
+   The callback is called in the context of a background thread. Care must be taken
+   - to return as soon as possible, so the communication could go on quickly
+   - to prevent any interaction with the windowed components that belong to the
+     application's main loop
+</pre>
+<hr />
+<a name="./tmp/fkg485_dll_cb.c">Generated from ./tmp/fkg485_dll_cb.c</a> on Thu Nov 19 09:50:26 2015
+<br />
+</body>
+</html>

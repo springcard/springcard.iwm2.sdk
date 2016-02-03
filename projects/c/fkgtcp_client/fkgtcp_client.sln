@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fkgtcp_client", "fkgtcp_client.vcxproj", "{47A73A11-BFD6-46F4-8241-127961AE12F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58656183-920F-42BC-BD48-E6A2C8CB0DE5} = {58656183-920F-42BC-BD48-E6A2C8CB0DE5}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fkgtcp_dll", "..\..\fkgtcp_dll\fkgtcp_dll.vcxproj", "{58656183-920F-42BC-BD48-E6A2C8CB0DE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47A73A11-BFD6-46F4-8241-127961AE12F9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{47A73A11-BFD6-46F4-8241-127961AE12F9}.Debug|Win32.Build.0 = Debug|Win32
+		{47A73A11-BFD6-46F4-8241-127961AE12F9}.Release|Win32.ActiveCfg = Release|Win32
+		{47A73A11-BFD6-46F4-8241-127961AE12F9}.Release|Win32.Build.0 = Release|Win32
+		{58656183-920F-42BC-BD48-E6A2C8CB0DE5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{58656183-920F-42BC-BD48-E6A2C8CB0DE5}.Debug|Win32.Build.0 = Debug|Win32
+		{58656183-920F-42BC-BD48-E6A2C8CB0DE5}.Release|Win32.ActiveCfg = Release|Win32
+		{58656183-920F-42BC-BD48-E6A2C8CB0DE5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
